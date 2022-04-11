@@ -5,11 +5,11 @@ def get_open_drive():
     for i in range(ord('A'), ord('Z') + 1):
 
         drive = chr(i) + ':'
-        print('Trying drive:' + drive)
+        print('Trying drive: ' + drive)
 
         try:
             os.scandir(drive)
-        except Exception:
+        except FileNotFoundError:
             print("Drive is Empty")
             return drive
 
