@@ -9,3 +9,6 @@ https://stackoverflow.com/questions/23735529/how-to-use-glob-to-read-limited-set
 # Dates
 https://www.delftstack.com/howto/python/how-to-convert-string-to-datetime/
 https://www.delftstack.com/howto/python/python-datetime-day-of-week/
+
+# Pandoc
+https://stackoverflow.com/questions/14899283/converting-multiple-markdown-files-with-links-to-pdf
