@@ -2,17 +2,24 @@ import os
 
 
 def get_open_drive():
-    for i in range(ord('A'), ord('Z') + 1):
+    '''Iterates from A-Z checking if an established drive is mapped to coresponding letter
 
+    Parameters
+    ----------
+    None
+
+    Returns
+    ----------
+    drive : str
+        First unmapped drive letter
+    '''
+    for i in range(ord('A'), ord('Z') + 1):
         drive = chr(i) + ':'
-        print('Trying drive: ' + drive)
 
         try:
             os.scandir(drive)
         except FileNotFoundError:
-            print("Drive is Empty")
             return drive
-
 
 def main():
     drive = get_open_drive()
