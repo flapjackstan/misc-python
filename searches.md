@@ -12,3 +12,6 @@ https://www.delftstack.com/howto/python/python-datetime-day-of-week/
 
 # Pandoc
 https://stackoverflow.com/questions/14899283/converting-multiple-markdown-files-with-links-to-pdf
+
+# Network Drives
+https://stackoverflow.com/questions/7169845/using-python-how-can-i-access-a-shared-folder-on-windows-network
