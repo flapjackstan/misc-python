@@ -4,6 +4,9 @@ https://stackoverflow.com/questions/17743549/recursively-add-the-entire-folder-t
 https://www.w3docs.com/snippets/git/how-to-show-the-changes-which-have-been-staged.html
 https://stackoverflow.com/questions/273695/what-are-some-examples-of-commonly-used-practices-for-naming-git-branches
 
+# CSS
+https://www.delftstack.com/howto/css/resize-image-css/
+
 # Python Strings
 https://stackoverflow.com/questions/23735529/how-to-use-glob-to-read-limited-set-of-files-with-numeric-names
 
