@@ -28,3 +28,4 @@ http://using-d3js.com/05_06_stacks.html
 ## Tooltips
 https://d3-graph-gallery.com/graph/interactivity_tooltip.html
 https://bl.ocks.org/d3noob/a22c42db65eb00d4e369
+https://stackoverflow.com/questions/17595813/is-it-possible-to-append-a-div-inside-an-svg-element#:~:text=Absolutely%20right.,g%20tag%20is%20better.
