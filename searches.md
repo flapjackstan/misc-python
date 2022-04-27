@@ -21,5 +21,10 @@ https://stackoverflow.com/questions/14899283/converting-multiple-markdown-files-
 https://stackoverflow.com/questions/7169845/using-python-how-can-i-access-a-shared-folder-on-windows-network
 
 # D3.js
+## Barplots
 https://d3-graph-gallery.com/graph/barplot_basic.html
 http://using-d3js.com/05_06_stacks.html
+
+## Tooltips
+https://d3-graph-gallery.com/graph/interactivity_tooltip.html
+https://bl.ocks.org/d3noob/a22c42db65eb00d4e369
