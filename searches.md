@@ -24,6 +24,9 @@ https://stackoverflow.com/questions/7169845/using-python-how-can-i-access-a-shar
 ## Selections
 https://stackoverflow.com/questions/43646573/d3-get-attributes-from-element
 
+## D3 Group and Summarize
+https://observablehq.com/@d3/d3-group
+
 ## Barplots
 https://d3-graph-gallery.com/graph/barplot_basic.html
 http://using-d3js.com/05_06_stacks.html
