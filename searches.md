@@ -21,6 +21,10 @@ https://stackoverflow.com/questions/14899283/converting-multiple-markdown-files-
 https://stackoverflow.com/questions/7169845/using-python-how-can-i-access-a-shared-folder-on-windows-network
 
 # D3.js
+
+## Data Shape
+https://jonathansoma.com/tutorials/d3/wide-vs-long-data/
+
 ## Selections
 https://stackoverflow.com/questions/43646573/d3-get-attributes-from-element
 
