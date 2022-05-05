@@ -3,6 +3,7 @@ https://stackoverflow.com/questions/3895453/how-do-i-make-a-git-commit-in-the-pa
 https://stackoverflow.com/questions/17743549/recursively-add-the-entire-folder-to-a-repository
 https://www.w3docs.com/snippets/git/how-to-show-the-changes-which-have-been-staged.html
 https://stackoverflow.com/questions/273695/what-are-some-examples-of-commonly-used-practices-for-naming-git-branches
+https://stackoverflow.com/questions/23227927/how-do-i-move-master-back-several-commits-in-git
 
 # CSS
 https://www.delftstack.com/howto/css/resize-image-css/
