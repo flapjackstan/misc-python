@@ -22,6 +22,9 @@ https://stackoverflow.com/questions/7169845/using-python-how-can-i-access-a-shar
 
 # D3.js
 
+## Sizing and SVG
+https://stackoverflow.com/questions/44833788/making-svg-container-100-width-and-height-of-parent-container-in-d3-v4-instead
+
 ## Data Shape
 https://jonathansoma.com/tutorials/d3/wide-vs-long-data/
 
