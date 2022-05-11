@@ -11,6 +11,7 @@ https://www.delftstack.com/howto/css/resize-image-css/
 # JS 
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/unshift
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray
+https://www.digitalocean.com/community/tutorials/js-finally-understand-reduce
 
 # Python Strings
 https://stackoverflow.com/questions/23735529/how-to-use-glob-to-read-limited-set-of-files-with-numeric-names
