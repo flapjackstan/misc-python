@@ -16,6 +16,7 @@ https://stackoverflow.com/questions/7342957/how-do-you-round-to-1-decimal-place-
 
 # Good Articles
 https://www.toptal.com/freelance/your-boss-won-t-appreciate-tdd-try-bdd
+https://www.joelonsoftware.com/2000/10/03/painless-functional-specifications-part-2-whats-a-spec/
 
 # Python Strings
 https://stackoverflow.com/questions/23735529/how-to-use-glob-to-read-limited-set-of-files-with-numeric-names
