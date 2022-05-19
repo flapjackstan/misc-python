@@ -25,6 +25,10 @@ https://stackoverflow.com/questions/23735529/how-to-use-glob-to-read-limited-set
 https://www.delftstack.com/howto/python/how-to-convert-string-to-datetime/
 https://www.delftstack.com/howto/python/python-datetime-day-of-week/
 
+# Postgres
+https://blog.dbi-services.com/the-fastest-way-to-load-1m-rows-in-postgresql/
+https://stackoverflow.com/questions/46715354/how-does-copy-work-and-why-is-it-so-much-faster-than-insert
+
 # Pandoc
 https://stackoverflow.com/questions/14899283/converting-multiple-markdown-files-with-links-to-pdf
 
