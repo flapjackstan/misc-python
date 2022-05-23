@@ -1,14 +1,12 @@
-from sqlalchemy.orm import Session
-from sqlalchemy.orm import close_all_sessions
-from sqlalchemy import Table, create_engine
-from sqlalchemy import select, MetaData, Column, Float
-from sqlalchemy.engine import URL
+from sqlalchemy.orm import Session, close_all_sessions
+from sqlalchemy import create_engine, MetaData, Table, Column, Float, select, text, Integer, Text, String
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.engine import URL
 
 import config
 
 
-def core():
+def core_read():
     user = config.pg_db.get('user')
     password = config.pg_db.get('password')
     server = config.pg_db.get('server')
@@ -43,8 +41,7 @@ def core():
 #https://stackoverflow.com/questions/39955521/sqlalchemy-existing-database-query
 # https://docs.sqlalchemy.org/en/14/orm/quickstart.html
 # https://docs.sqlalchemy.org/en/14/orm/queryguide.html
-
-def orm():
+def orm_read_table():
     user = config.pg_db.get('user')
     password = config.pg_db.get('password')
     server = config.pg_db.get('server')
@@ -62,36 +59,50 @@ def orm():
     class MyClass(Base):
         __table__ = Table('staging', metadata)
 
+        # need to add the rest of cols
         def __repr__(self):
-            return f"User(id={self.LAT}, name={self.LON})"
+            return f"Address(LAT={self.LAT}, LON={self.LON})"
 
     session = Session(engine)
 
     stmt = select(MyClass).limit(5)
 
-    ################### METHOD 1 ###################
-
-    # results_cursor = session.execute(stmt)
-
-    # results = results_cursor.scalars()
-
-    # for i in results:
-    #     print(i.LAT)
-
-    ################### METHOD 2 ###################
-
-    # i think this would work if it had defined columns
     results_cursor = session.execute(stmt)
     results = results_cursor.scalars().all()
 
-    print(results)
-
-    ################### METHOD 3 ###################
-
-    # for row in session.execute(stmt):
-    #     print(row.MyClass.LAT)
+    print(results, type(results))
 
     close_all_sessions()
+
+
+def orm_create_table():
+    user = config.pg_db.get('user')
+    password = config.pg_db.get('password')
+    server = config.pg_db.get('server')
+
+    db = 'CamargoDB'
+
+    connection_url = URL.create(drivername="postgresql+psycopg2", username=user, password=password, host=server, database=db)
+    engine = create_engine(connection_url, echo=False)
+
+    metadata = MetaData(engine, schema="public")
+
+    Base = declarative_base(metadata=metadata)
+
+    class Simpsons(Base):
+        __tablename__ = 'simpsons'
+        id = Column(Integer, primary_key=True)
+        name = Column(String(20))
+        street = Column(Text())
+
+        # need to add the rest of cols
+        def __repr__(self):
+            return f"Simpson(id={self.id}, name={self.name}, street={self.street})"
+
+    Base.metadata.create_all(engine)
+
+    close_all_sessions()
+
 
 def sqlalchemy_copy():
     user = config.pg_db.get('user')
@@ -101,14 +112,75 @@ def sqlalchemy_copy():
     db = 'CamargoDB'
 
     connection_url = URL.create(drivername="postgresql+psycopg2", username=user, password=password, host=server, database=db)
-    engine = create_engine(connection_url, echo=False, future=True)
+    engine = create_engine(connection_url, echo=False)
+
+    connection = engine.connect().connection
+
+    # get a cursor on that connection
+    cursor = connection.cursor()
+
+    copy_from = """
+                COPY simpsons 
+                FROM STDIN
+                WITH (
+                    FORMAT CSV,
+                    DELIMITER ',',
+                    HEADER
+                );
+                """
+
+    # running the copy statement
+    with open('../data/simpsons_addresses.csv') as f:
+        cursor.copy_expert(copy_from, file=f)
+
+    # don't forget to commit the changes.
+    connection.commit()
+
+    close_all_sessions()
 
 
+def temp_table_copy_upsert():
+    user = config.pg_db.get('user')
+    password = config.pg_db.get('password')
+    server = config.pg_db.get('server')
 
-if __name__ == '__main__':
-    # works!
-    # core()
+    db = 'CamargoDB'
 
-    # works!
-    # orm()
+    connection_url = URL.create(drivername="postgresql+psycopg2", username=user, password=password, host=server, database=db)
+    engine = create_engine(connection_url, echo=False)
 
+    connection = engine.connect().connection
+
+    # get a cursor on that connection
+    cursor = connection.cursor()
+
+    cursor.execute("create TEMP TABLE temp_simpsons(id int primary key, name text, street text);")
+
+    copy_from = """
+                COPY temp_simpsons 
+                FROM STDIN
+                WITH (
+                    FORMAT CSV,
+                    DELIMITER ',',
+                    HEADER
+                );
+                """
+
+    # running the copy statement
+    with open('../data/simpsons_addresses_address_id_update.csv') as f:
+        cursor.copy_expert(copy_from, file=f)
+
+    cursor.execute('''insert into simpsons
+        (SELECT "id", "name", "street" from 
+                    (select "id", "name", "street" from temp_simpsons
+                         where not exists
+                        (select * from simpsons where temp_simpsons."id" = simpsons."id")
+                        or NOT EXISTS
+                        (select * from simpsons where temp_simpsons."street" = simpsons."street")
+                    ) as subtable
+        )
+        on conflict (id) do update SET "street" = excluded."street";''')
+
+    connection.commit()
+
+    connection.close()
