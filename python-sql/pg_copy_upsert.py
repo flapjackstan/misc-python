@@ -154,7 +154,7 @@ def temp_table_copy_upsert():
     # get a cursor on that connection
     cursor = connection.cursor()
 
-    cursor.execute("create TEMP TABLE temp_simpsons(id int primary key, name text, street text);")
+    cursor.execute("create temp table temp_simpsons as select * from simpsons where false")
 
     copy_from = """
                 COPY temp_simpsons 
@@ -171,8 +171,8 @@ def temp_table_copy_upsert():
         cursor.copy_expert(copy_from, file=f)
 
     cursor.execute('''insert into simpsons
-        (SELECT "id", "name", "street" from 
-                    (select "id", "name", "street" from temp_simpsons
+        (SELECT * from 
+                    (select * from temp_simpsons
                          where not exists
                         (select * from simpsons where temp_simpsons."id" = simpsons."id")
                         or NOT EXISTS
@@ -184,3 +184,10 @@ def temp_table_copy_upsert():
     connection.commit()
 
     connection.close()
+
+if __name__ == '__main__':
+    orm_create_table()
+
+    sqlalchemy_copy()
+
+    temp_table_copy_upsert()
