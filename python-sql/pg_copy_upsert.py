@@ -41,7 +41,7 @@ def core_read():
 #https://stackoverflow.com/questions/39955521/sqlalchemy-existing-database-query
 # https://docs.sqlalchemy.org/en/14/orm/quickstart.html
 # https://docs.sqlalchemy.org/en/14/orm/queryguide.html
-def orm_read_table():
+def orm_read():
     user = config.pg_db.get('user')
     password = config.pg_db.get('password')
     server = config.pg_db.get('server')
@@ -175,8 +175,8 @@ def temp_table_copy_upsert():
                     (select * from temp_simpsons
                          where not exists
                         (select * from simpsons where temp_simpsons."id" = simpsons."id")
-                        or NOT EXISTS
-                        (select * from simpsons where temp_simpsons."street" = simpsons."street")
+                        or
+                        (select * from simpsons where temp_simpsons."street" != simpsons."street")
                     ) as subtable
         )
         on conflict (id) do update SET "street" = excluded."street";''')
@@ -185,9 +185,10 @@ def temp_table_copy_upsert():
 
     connection.close()
 
+
 if __name__ == '__main__':
     orm_create_table()
 
     sqlalchemy_copy()
 
-    temp_table_copy_upsert()
+    # temp_table_copy_upsert()
