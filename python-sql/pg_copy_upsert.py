@@ -41,7 +41,7 @@ def core_read():
 #https://stackoverflow.com/questions/39955521/sqlalchemy-existing-database-query
 # https://docs.sqlalchemy.org/en/14/orm/quickstart.html
 # https://docs.sqlalchemy.org/en/14/orm/queryguide.html
-def orm_read_table():
+def orm_read():
     user = config.pg_db.get('user')
     password = config.pg_db.get('password')
     server = config.pg_db.get('server')
@@ -76,6 +76,7 @@ def orm_read_table():
 
 
 def orm_create_table():
+    print("Creating Tables")
     user = config.pg_db.get('user')
     password = config.pg_db.get('password')
     server = config.pg_db.get('server')
@@ -89,11 +90,38 @@ def orm_create_table():
 
     Base = declarative_base(metadata=metadata)
 
-    class Simpsons(Base):
-        __tablename__ = 'simpsons'
+    class SimpsonsVisits(Base):
+        __tablename__ = 'simpsons_visits'
+        visit_id = Column(Integer, primary_key=True)
+        id = Column(Integer)
+        name = Column(String(20))
+        street = Column(Text())
+        date = Column(String(10))
+
+        # need to add the rest of cols
+        def __repr__(self):
+            return f"Simpson(id={self.id}, name={self.name}, street={self.street})"
+
+    class SimpsonsAddresses(Base):
+        __tablename__ = 'simpsons_addresses'
+        visit_id = Column(Integer)
         id = Column(Integer, primary_key=True)
         name = Column(String(20))
         street = Column(Text())
+        date = Column(String(10))
+        coords = Column(String(10))
+
+        # need to add the rest of cols
+        def __repr__(self):
+            return f"Simpson(id={self.id}, name={self.name}, street={self.street}, coords={self.coords})"
+
+    class SimpsonsVisitsTwo(Base):
+        __tablename__ = 'simpsons_visits_two'
+        visit_id = Column(Integer, primary_key=True)
+        id = Column(Integer)
+        name = Column(String(20))
+        street = Column(Text())
+        date = Column(String(10))
 
         # need to add the rest of cols
         def __repr__(self):
@@ -101,10 +129,13 @@ def orm_create_table():
 
     Base.metadata.create_all(engine)
 
+    print("Created Tables")
+
     close_all_sessions()
 
 
 def sqlalchemy_copy():
+    print("Copying into Table")
     user = config.pg_db.get('user')
     password = config.pg_db.get('password')
     server = config.pg_db.get('server')
@@ -120,7 +151,7 @@ def sqlalchemy_copy():
     cursor = connection.cursor()
 
     copy_from = """
-                COPY simpsons 
+                COPY simpsons_visits_two 
                 FROM STDIN
                 WITH (
                     FORMAT CSV,
@@ -130,11 +161,13 @@ def sqlalchemy_copy():
                 """
 
     # running the copy statement
-    with open('../data/simpsons_addresses.csv') as f:
+    with open('../data/simpsons_visits_w_new_person_new_house_and_new_person_same_house_and_same_person_new_house.csv') as f:
         cursor.copy_expert(copy_from, file=f)
 
     # don't forget to commit the changes.
     connection.commit()
+
+    print("Copy Complete")
 
     close_all_sessions()
 
@@ -175,8 +208,8 @@ def temp_table_copy_upsert():
                     (select * from temp_simpsons
                          where not exists
                         (select * from simpsons where temp_simpsons."id" = simpsons."id")
-                        or NOT EXISTS
-                        (select * from simpsons where temp_simpsons."street" = simpsons."street")
+                        or
+                        (select * from simpsons where temp_simpsons."street" != simpsons."street")
                     ) as subtable
         )
         on conflict (id) do update SET "street" = excluded."street";''')
@@ -185,9 +218,10 @@ def temp_table_copy_upsert():
 
     connection.close()
 
+
 if __name__ == '__main__':
     orm_create_table()
 
     sqlalchemy_copy()
 
-    temp_table_copy_upsert()
+    # temp_table_copy_upsert()

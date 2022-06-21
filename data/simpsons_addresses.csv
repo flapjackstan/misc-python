@@ -1,8 +1,6 @@
-id,name,street
-0,homer,"123 arnold st, springfield, springfield, 89877"
-1,marge,"124 arnold st, springfield, springfield, 89877"
-2,selma,"897 mayfield ave, springfield, springfield, 82749"
-3,patty,"898 mayfield ave, springfield, springfield, 82749"
-4,troy maclure,"9982 wealth way, springfield, springfield, 79823"
-5,ms krabapple,"7623 minister ln, springfield, springfield, 89776"
-6,nelson,"5678 citrus way, springfield, springfield, 76777"
+visit_id,id,name,street,date,coords
+0,0,homer,"123 arnold st, springfield, springfield, 89877",05/25/2022,aa
+1,1,selma,"897 mayfield ave, springfield, springfield, 82749",05/25/2022,bb
+2,2,troy maclure,"9982 wealth way, springfield, springfield, 79823",05/26/2022,cc
+3,3,ms krabapple,"7623 minister ln, springfield, springfield, 89776",05/30/2022,dd
+4,4,nelson,"5678 citrus way, springfield, springfield, 76777",05/31/2022,ee
